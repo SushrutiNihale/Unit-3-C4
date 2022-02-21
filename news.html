@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/main.css">
+  </head>
+
+  <body>
+    <!--DO NOT CHANGE THIS ID's-->
+
+    <div id="container">
+      <div id="sidebar">
+        <!--add your sidebar component here-->
+      </div>
+
+      <div id="main">
+        <!--DO NOT CHANGE THIS ID's-->
+        <!--Show the clicked article in detailed format here ONLY-->
+      </div>
+    </div>
+  </body>
+</html>
+
+<script type="module">
+  import {sidebar} from './components/sidebar.js';
+  import {apiCall,appendArticles} from './scripts/main.js'
+  sidebar();
+
+  let data = JSON.parse(localStorage.getItem('article'));
+  console.log(data);
+
+  let div = document.createElement('div');
+  let divImage = document.createElement('img');
+  let divTitle = document.createElement('p');
+  let divContent = document.createElement('p');
+
+  // image.src = data.urlToImage;
+  // title.textContent = data.title;
+
+  let {author,content,description,publishedAt,source,title,url,urlToImage} = data;
+  divTitle.textContent = title;
+  divImage.src = urlToImage;
+  divContent.textContent = content;
+  div.append(divTitle,divImage,divContent);
+  document.getElementById('main').append(div);
+
+  document.getElementById('searchbar').addEventListener('keypress',goToSearch);
+  function goToSearch(e) {
+    if (e.key == 'Enter') {
+      let userInput = document.getElementById('searchbar').value;
+      localStorage.setItem('search_term',userInput);
+      window.location.href = 'search.html';
+    }
+  }
+</script>

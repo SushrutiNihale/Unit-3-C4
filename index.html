@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="stylesheet" href="./styles/main.css">
+  </head>
+
+  <body>
+    <div id="container">
+      <div id="sidebar">
+        <!--DO NOT CHANGE THIS ID's-->
+        <!--Append the horizontal navbar(sidebar) here only-->
+        
+      </div>
+
+      <div id="main">
+        <!--DO NOT CHANGE THIS ID's-->
+        <!--Append top headlines from india here only-->
+      </div>
+    </div>
+  </body>
+</html>
+
+
+<script type="module">
+  import {sidebar} from './components/sidebar.js';
+  import {apiCall,appendArticles} from './scripts/main.js'
+  sidebar();
+
+  let data = await apiCall(`https://shrouded-earth-23381.herokuapp.com/api/headlines/india`);
+  console.log(data);
+
+  appendArticles(data);
+
+  function goToNews() {
+    let newsData = data[this.id];
+    localStorage.setItem('article',JSON.stringify(newsData));
+    window.location.href = 'news.html';
+  }
+  for (let i = 0; i < data.length; i++) {
+    document.getElementById(i).addEventListener('click',goToNews);
+  }
+
+  document.getElementById('searchbar').addEventListener('keypress',goToSearch);
+  function goToSearch(e) {
+    if (e.key == 'Enter') {
+      let userInput = document.getElementById('searchbar').value;
+      localStorage.setItem('search_term',userInput);
+      window.location.href = 'search.html';
+    }
+  }
+</script>
